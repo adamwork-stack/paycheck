@@ -273,7 +273,7 @@
   }
 
   function formatMoney(num) {
-    if (num === null || isNaN(num)) return '0.00';
+    if (num === null || num === undefined || isNaN(num)) return 0;
     return Math.round(num * 100) / 100;
   }
 
@@ -295,8 +295,8 @@
       var hourlyRate = parseFloat((hourlyPayRateInput && hourlyPayRateInput.value.replace(/[^0-9.-]/g, '')) || 0, 10);
       var amount = hourlyRate * hours;
       earningRateOriginal.value = formatMoney(hourlyRate).toFixed(2);
-      earningAmountOriginal.value = String(formatMoney(amount));
-      earningYtdOriginal.value = String(formatMoney(amount));
+      earningAmountOriginal.value = formatMoney(amount).toFixed(2);
+      earningYtdOriginal.value = formatMoney(amount).toFixed(2);
     } else {
       var annual = parseFloat((annualWageInput && annualWageInput.value.replace(/[^0-9.-]/g, '')) || 0, 10);
       var schedule = (payScheduleSelect && payScheduleSelect.value) || 'semimonthly';
@@ -304,8 +304,8 @@
       var periodPay = periods ? annual / periods : 0;
       var hourlyRate = hours ? periodPay / hours : 0;
       earningRateOriginal.value = formatMoney(hourlyRate).toFixed(2);
-      earningAmountOriginal.value = String(formatMoney(periodPay));
-      earningYtdOriginal.value = String(formatMoney(periodPay));
+      earningAmountOriginal.value = formatMoney(periodPay).toFixed(2);
+      earningYtdOriginal.value = formatMoney(periodPay).toFixed(2);
     }
   }
 
