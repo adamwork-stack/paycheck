@@ -687,8 +687,28 @@
     return div.innerHTML;
   }
 
+  function applyPreviewPaystubAccent() {
+    if (!previewPaystubContent) return;
+    var colors = templateColors[currentModalTemplate] || templateColors.modern;
+    var hex = colors[currentModalColor] != null && colors[currentModalColor] ? colors[currentModalColor].hex : (templateColors.modern[0] && templateColors.modern[0].hex) || '#c0392b';
+    previewPaystubContent.querySelectorAll('.ps-period-box, .ps-table thead th').forEach(function (el) {
+      el.style.backgroundColor = hex;
+      el.style.color = '#fff';
+    });
+    previewPaystubContent.querySelectorAll('.ps-summary-row.accent').forEach(function (el) {
+      el.style.backgroundColor = hex;
+      el.style.color = '#fff';
+      el.style.margin = '0 -0.25rem';
+      el.style.padding = '0.35rem 0.5rem';
+      el.style.borderRadius = '4px';
+    });
+  }
+
   function openPreviewPaystubModal() {
-    if (previewPaystubContent) previewPaystubContent.innerHTML = buildPreviewPaystubHTML();
+    if (previewPaystubContent) {
+      previewPaystubContent.innerHTML = buildPreviewPaystubHTML();
+      applyPreviewPaystubAccent();
+    }
     if (previewPaystubModal) {
       previewPaystubModal.classList.add('is-open');
       previewPaystubModal.setAttribute('aria-hidden', 'false');
