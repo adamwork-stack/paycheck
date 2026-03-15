@@ -537,12 +537,28 @@
     return allFilled;
   }
 
+  var employeeTaxesSection = document.getElementById('employeeTaxesSection');
+
+  function updateMandatoryUI() {
+    var valid = checkMandatory();
+    if (warningBar) warningBar.style.display = valid ? 'none' : 'flex';
+    if (employeeTaxesSection) employeeTaxesSection.classList.toggle('blurred', !valid);
+  }
+
+  var formWrapper = document.querySelector('.form-wrapper');
+  if (formWrapper) {
+    formWrapper.addEventListener('input', updateMandatoryUI);
+    formWrapper.addEventListener('change', updateMandatoryUI);
+  }
+  updateMandatoryUI();
+
   if (previewBtn && warningBar) {
     previewBtn.addEventListener('click', function () {
-      const valid = checkMandatory();
-      warningBar.style.display = valid ? 'none' : 'flex';
+      var valid = checkMandatory();
       if (valid) {
         alert('Preview would open here. Form is valid.');
+      } else {
+        updateMandatoryUI();
       }
     });
   }

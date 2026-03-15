@@ -650,6 +650,12 @@ select.active-select {
   color: #2d2d2d;
 }
 
+#employeeTaxesSection.blurred {
+  filter: blur(4px);
+  pointer-events: none;
+  user-select: none;
+}
+
 .btn-calculate {
   display: inline-flex;
   align-items: center;
