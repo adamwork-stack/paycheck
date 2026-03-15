@@ -233,18 +233,84 @@
 
   var salaryHoursInput = document.getElementById('salaryHours');
   var earningHoursOriginal = document.getElementById('earningHoursOriginal');
+  var earningRateOriginal = document.getElementById('earningRateOriginal');
+  var earningAmountOriginal = document.getElementById('earningAmountOriginal');
+  var earningYtdOriginal = document.getElementById('earningYtdOriginal');
+  var annualWageInput = document.getElementById('annualWage');
+  var hourlyPayRateInput = document.getElementById('hourlyPayRate');
+  var payScheduleSelect = document.getElementById('paySchedule');
+
+  var periodsPerYear = {
+    daily: 260,
+    weekly: 52,
+    biweekly: 26,
+    semimonthly: 24,
+    monthly: 12,
+    quarterly: 4,
+    semiannually: 2,
+    annually: 1
+  };
+
+  function formatMoney(num) {
+    if (num === null || isNaN(num)) return '0.00';
+    return Math.round(num * 100) / 100;
+  }
+
   function syncSalaryHoursToEarning() {
     if (!salaryHoursInput || !earningHoursOriginal) return;
     var val = parseFloat(salaryHoursInput.value, 10);
     if (!isNaN(val)) {
       earningHoursOriginal.value = (Math.round(val * 100) / 100).toFixed(2) + ' hrs';
     }
+    updateRegularEarningFromWage();
   }
+
+  function updateRegularEarningFromWage() {
+    if (!earningRateOriginal || !earningAmountOriginal || !earningYtdOriginal || !salaryHoursInput) return;
+    var hours = parseFloat(salaryHoursInput.value, 10) || 0;
+    var isHourly = document.querySelector('input[name="wageType"]:checked').value === 'hourly';
+
+    if (isHourly) {
+      var hourlyRate = parseFloat((hourlyPayRateInput && hourlyPayRateInput.value.replace(/[^0-9.-]/g, '')) || 0, 10);
+      var amount = hourlyRate * hours;
+      earningRateOriginal.value = formatMoney(hourlyRate).toFixed(2);
+      earningAmountOriginal.value = String(formatMoney(amount));
+      earningYtdOriginal.value = String(formatMoney(amount));
+    } else {
+      var annual = parseFloat((annualWageInput && annualWageInput.value.replace(/[^0-9.-]/g, '')) || 0, 10);
+      var schedule = (payScheduleSelect && payScheduleSelect.value) || 'semimonthly';
+      var periods = periodsPerYear[schedule] || 24;
+      var periodPay = periods ? annual / periods : 0;
+      var hourlyRate = hours ? periodPay / hours : 0;
+      earningRateOriginal.value = formatMoney(hourlyRate).toFixed(2);
+      earningAmountOriginal.value = String(formatMoney(periodPay));
+      earningYtdOriginal.value = String(formatMoney(periodPay));
+    }
+  }
+
   if (salaryHoursInput) {
     salaryHoursInput.addEventListener('input', syncSalaryHoursToEarning);
     salaryHoursInput.addEventListener('change', syncSalaryHoursToEarning);
   }
+  if (annualWageInput) {
+    annualWageInput.addEventListener('input', updateRegularEarningFromWage);
+    annualWageInput.addEventListener('change', updateRegularEarningFromWage);
+  }
+  if (hourlyPayRateInput) {
+    hourlyPayRateInput.addEventListener('input', updateRegularEarningFromWage);
+    hourlyPayRateInput.addEventListener('change', updateRegularEarningFromWage);
+  }
+  if (payScheduleSelect) {
+    payScheduleSelect.addEventListener('change', updateRegularEarningFromWage);
+  }
+  document.querySelectorAll('input[name="wageType"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      syncSalaryHoursToEarning();
+      updateRegularEarningFromWage();
+    });
+  });
   syncSalaryHoursToEarning();
+  updateRegularEarningFromWage();
 
   function getDeductionsContainer() {
     const sections = document.querySelectorAll('.form-section');

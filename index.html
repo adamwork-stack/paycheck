@@ -252,19 +252,19 @@
           <label class="required">*Annual wage</label>
           <div class="input-prefix">
             <span class="prefix">$</span>
-            <input type="text" name="annualWage" placeholder="">
+            <input type="text" name="annualWage" id="annualWage" placeholder="">
           </div>
         </div>
         <div class="field-group wage-hourly-only">
           <label class="required">*Hourly pay rate</label>
           <div class="input-prefix">
             <span class="prefix">$</span>
-            <input type="text" name="hourlyPayRate" placeholder="">
+            <input type="text" name="hourlyPayRate" id="hourlyPayRate" placeholder="">
           </div>
         </div>
         <div class="field-group">
           <label>Pay Schedule</label>
-          <select name="paySchedule" class="active-select">
+          <select name="paySchedule" id="paySchedule" class="active-select">
             <option value="daily">Daily</option>
             <option value="weekly">Weekly</option>
             <option value="biweekly">Bi-Weekly</option>
@@ -360,14 +360,14 @@
             <label>Amount</label>
             <div class="input-prefix earning-calc">
               <span class="prefix">$</span>
-              <input type="text" name="earningAmount_0" value="0" readonly class="earning-amount-display">
+              <input type="text" name="earningAmount_0" id="earningAmountOriginal" value="0" readonly class="earning-amount-display">
             </div>
           </div>
           <div class="field-group">
             <label>YTD Amount</label>
             <div class="input-prefix earning-calc">
               <span class="prefix">$</span>
-              <input type="text" name="earningYtd_0" value="0" readonly class="earning-amount-display">
+              <input type="text" name="earningYtd_0" id="earningYtdOriginal" value="0" readonly class="earning-amount-display">
             </div>
           </div>
         </div>
