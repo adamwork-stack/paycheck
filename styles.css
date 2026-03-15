@@ -1026,11 +1026,11 @@ select.active-select {
   border-top: 1px solid #e0e0e0;
 }
 
-/* Preview Paystub modal */
+/* Preview Paystub modal – same as Paystub Template modal */
 .modal-preview-paystub {
   background: #fff;
   border-radius: 8px;
-  max-width: 700px;
+  max-width: 900px;
   width: 100%;
   max-height: 90vh;
   display: flex;
@@ -1039,15 +1039,20 @@ select.active-select {
 }
 
 .preview-paystub-body {
+  flex: 1;
+  min-height: 0;
   padding: 1rem 1.25rem;
   overflow-y: auto;
-  flex: 1;
+  min-width: 0;
 }
 
 .preview-paystub-doc {
   font-size: 12px;
   color: #333;
-  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fafafa;
 }
 
 .preview-paystub-doc .ps-row {
