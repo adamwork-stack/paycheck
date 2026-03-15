@@ -328,10 +328,10 @@
         </div>
       </div>
       <div class="earnings-table">
-        <div class="earning-row" data-index="0">
+        <div class="earning-row earning-row-original" data-index="0">
           <div class="field-group">
             <label>Earning</label>
-            <select name="earningType_0">
+            <select name="earningType_0" class="active-select">
               <option value="regular" selected>Regular Earnings</option>
               <option value="overtime">Overtime</option>
               <option value="overtime-hourly">Overtime Hourly</option>
@@ -346,10 +346,10 @@
             </select>
           </div>
           <div class="field-group">
-            <label>Amount</label>
+            <label>Rate / Amount</label>
             <div class="input-prefix">
               <span class="prefix">$</span>
-              <input type="text" name="earningAmount_0" value="0.00" class="amount-input">
+              <input type="text" name="earningRate_0" value="0.00" class="amount-input" placeholder="0.00">
             </div>
           </div>
           <div class="field-group">
@@ -357,15 +357,18 @@
             <input type="text" name="earningHours_0" value="0.00 hrs" class="amount-input">
           </div>
           <div class="field-group">
-            <label>YTD Amount</label>
-            <div class="input-prefix">
+            <label>Amount</label>
+            <div class="input-prefix earning-calc">
               <span class="prefix">$</span>
-              <input type="text" name="earningYtd_0" value="0" class="amount-input">
+              <input type="text" name="earningAmount_0" value="0" readonly class="earning-amount-display">
             </div>
           </div>
-          <div class="field-group field-remove">
-            <label>&nbsp;</label>
-            <button type="button" class="btn-remove" aria-label="Remove">×</button>
+          <div class="field-group">
+            <label>YTD Amount</label>
+            <div class="input-prefix earning-calc">
+              <span class="prefix">$</span>
+              <input type="text" name="earningYtd_0" value="0" readonly class="earning-amount-display">
+            </div>
           </div>
         </div>
       </div>

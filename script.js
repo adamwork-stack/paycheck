@@ -175,13 +175,14 @@
 
   function createEarningRow(index) {
     const row = document.createElement('div');
-    row.className = 'earning-row';
+    row.className = 'earning-row earning-row-added';
     row.setAttribute('data-index', index);
     row.innerHTML = `
       <div class="field-group">
         <label>Earning</label>
         <select name="earningType_${index}">
-          <option value="regular" selected>Regular Earnings</option>
+          <option value="">-- Select --</option>
+          <option value="regular">Regular Earnings</option>
           <option value="overtime">Overtime</option>
           <option value="overtime-hourly">Overtime Hourly</option>
           <option value="tips">Tips</option>
@@ -198,18 +199,14 @@
         <label>Amount</label>
         <div class="input-prefix">
           <span class="prefix">$</span>
-          <input type="text" name="earningAmount_${index}" value="0.00" class="amount-input">
+          <input type="text" name="earningAmount_${index}" placeholder="">
         </div>
-      </div>
-      <div class="field-group">
-        <label>Hours</label>
-        <input type="text" name="earningHours_${index}" value="0.00 hrs" class="amount-input">
       </div>
       <div class="field-group">
         <label>YTD Amount</label>
         <div class="input-prefix">
           <span class="prefix">$</span>
-          <input type="text" name="earningYtd_${index}" value="0" class="amount-input">
+          <input type="text" name="earningYtd_${index}" placeholder="">
         </div>
       </div>
       <div class="field-group field-remove">
@@ -228,7 +225,10 @@
   }
 
   earningsContainer && earningsContainer.addEventListener('click', function (e) {
-    if (e.target.classList.contains('btn-remove')) e.target.closest('.earning-row').remove();
+    if (e.target.classList.contains('btn-remove')) {
+      const row = e.target.closest('.earning-row-added');
+      if (row) row.remove();
+    }
   });
 
   function getDeductionsContainer() {

@@ -433,11 +433,30 @@ select.active-select {
 }
 
 .earning-row {
+  margin-bottom: 1rem;
+}
+
+.earning-row-original {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
   gap: 1rem;
   align-items: end;
-  margin-bottom: 1rem;
+}
+
+.earning-row-added {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+}
+
+.earning-amount-display {
+  background: #f5f5f5 !important;
+  cursor: default;
+}
+
+.earning-calc .earning-amount-display {
+  border-color: #e0e0e0;
 }
 
 .amount-input {
