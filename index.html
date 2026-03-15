@@ -170,20 +170,51 @@
         <h3 class="subsection-title">Federal Information <span class="info-icon">ⓘ</span></h3>
         <p class="section-desc">Enter federal tax withholding information from the employee's Form W-4 to calculate accurate federal income tax deductions.</p>
         <label class="checkbox-label">
-          <input type="checkbox" name="w4_2020" checked>
+          <input type="checkbox" name="w4_2020" id="w4_2020" checked>
           <span class="checkbox-custom"></span>
           Use 2020 Form W-4 for federal withholding calculation
         </label>
         <p class="section-desc">Enter the information in the appropriate fields as mentioned in the employee's Form W-4.</p>
         <div class="field-group">
-          <label>Filing Status (Step 1c)</label>
-          <select name="filingStatus" class="active-select">
-            <option value="single">Single or Married filing separately</option>
-            <option value="married">Married filing jointly</option>
-            <option value="head">Head of household</option>
+          <label id="filingStatusLabel">Filing Status (Step 1c)</label>
+          <select name="filingStatus" id="filingStatusSelect" class="active-select">
+            <option value="single-separately" selected>Single or Married filing separately</option>
+            <option value="married-widow">Married filing jointly or Qualifying widow(er)</option>
+            <option value="head">Head of Household</option>
+            <option value="nonresident">Nonresident Alien</option>
           </select>
         </div>
-        <a href="#" class="link with-caret">Show Additional Info <span class="caret">▼</span></a>
+        <div class="federal-additional" id="federalAdditionalInfo" hidden>
+          <div class="form-grid">
+            <div class="field-group">
+              <label>No. of Federal Allowances</label>
+              <input type="text" name="federalAllowances" placeholder="" inputmode="numeric">
+            </div>
+            <div class="field-group">
+              <label>Extra Withholding (Box 6)</label>
+              <div class="input-prefix">
+                <span class="prefix">$</span>
+                <input type="text" name="extraWithholding" placeholder="">
+              </div>
+            </div>
+          </div>
+          <div class="exempt-row">
+            <span class="exempt-label">Exempt Federal</span>
+            <label class="radio-label"><input type="radio" name="exemptFederal" value="yes"><span class="radio-custom"></span>Yes</label>
+            <label class="radio-label"><input type="radio" name="exemptFederal" value="no" checked><span class="radio-custom"></span>No</label>
+          </div>
+          <div class="exempt-row">
+            <span class="exempt-label">Exempt FICA</span>
+            <label class="radio-label"><input type="radio" name="exemptFica" value="yes"><span class="radio-custom"></span>Yes</label>
+            <label class="radio-label"><input type="radio" name="exemptFica" value="no" checked><span class="radio-custom"></span>No</label>
+          </div>
+          <div class="exempt-row">
+            <span class="exempt-label">Exempt Medicare</span>
+            <label class="radio-label"><input type="radio" name="exemptMedicare" value="yes"><span class="radio-custom"></span>Yes</label>
+            <label class="radio-label"><input type="radio" name="exemptMedicare" value="no" checked><span class="radio-custom"></span>No</label>
+          </div>
+        </div>
+        <a href="#" class="link with-caret" id="toggleFederalAdditional">Show Additional Info <span class="caret">▼</span></a>
       </div>
 
       <!-- State Information (Employee only) -->

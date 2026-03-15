@@ -87,6 +87,28 @@ body {
   margin-top: 1.5rem;
 }
 
+.federal-additional {
+  margin-top: 1rem;
+}
+
+.federal-additional[hidden] {
+  display: none !important;
+}
+
+.exempt-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.exempt-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #333;
+  min-width: 7rem;
+}
+
 /* Form grid */
 .form-grid {
   display: grid;

@@ -397,4 +397,63 @@
     radio.addEventListener('change', updateWorkerTypeUI);
   });
   updateWorkerTypeUI();
+
+  // W-4 2020 checkbox: switch Filing Status label and options
+  var w4_2020Checkbox = document.getElementById('w4_2020');
+  var filingStatusLabel = document.getElementById('filingStatusLabel');
+  var filingStatusSelect = document.getElementById('filingStatusSelect');
+  var filingStatusOptions2020 = [
+    { value: 'single-separately', text: 'Single or Married filing separately' },
+    { value: 'married-widow', text: 'Married filing jointly or Qualifying widow(er)' },
+    { value: 'head', text: 'Head of Household' },
+    { value: 'nonresident', text: 'Nonresident Alien' }
+  ];
+  var filingStatusOptionsBox3 = [
+    { value: 'single', text: 'Single' },
+    { value: 'married', text: 'Married' },
+    { value: 'married-single-rate', text: 'Married Use Single Rate' },
+    { value: 'nonresident', text: 'Nonresident Alien' }
+  ];
+
+  function updateFilingStatusForW4() {
+    var use2020 = w4_2020Checkbox && w4_2020Checkbox.checked;
+    if (filingStatusLabel) {
+      filingStatusLabel.textContent = use2020 ? 'Filing Status (Step 1c)' : 'Filing Status (Box 3)';
+    }
+    if (filingStatusSelect) {
+      var opts = use2020 ? filingStatusOptions2020 : filingStatusOptionsBox3;
+      var current = filingStatusSelect.value;
+      var hasMatch = opts.some(function (o) { return o.value === current; });
+      filingStatusSelect.innerHTML = '';
+      opts.forEach(function (o, i) {
+        var opt = document.createElement('option');
+        opt.value = o.value;
+        opt.textContent = o.text;
+        opt.selected = o.value === current || (!hasMatch && i === 0);
+        filingStatusSelect.appendChild(opt);
+      });
+    }
+  }
+
+  if (w4_2020Checkbox) {
+    w4_2020Checkbox.addEventListener('change', updateFilingStatusForW4);
+  }
+  updateFilingStatusForW4();
+
+  // Federal "Show Additional Info" / "Hide Additional Info" toggle
+  var toggleFederalLink = document.getElementById('toggleFederalAdditional');
+  var federalAdditionalInfo = document.getElementById('federalAdditionalInfo');
+  if (toggleFederalLink && federalAdditionalInfo) {
+    toggleFederalLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      var isHidden = federalAdditionalInfo.hasAttribute('hidden');
+      if (isHidden) {
+        federalAdditionalInfo.removeAttribute('hidden');
+        toggleFederalLink.innerHTML = 'Hide Additional Info <span class="caret">▲</span>';
+      } else {
+        federalAdditionalInfo.setAttribute('hidden', '');
+        toggleFederalLink.innerHTML = 'Show Additional Info <span class="caret">▼</span>';
+      }
+    });
+  }
 })();
