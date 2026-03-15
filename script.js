@@ -514,10 +514,134 @@
     });
   }
 
-  // Optional: use type="date" on date inputs for native picker
-  document.querySelectorAll('.date-input').forEach(function (input) {
-    input.setAttribute('type', 'date');
-  });
+  // Calendar popup for date fields
+  (function () {
+    var popup = document.getElementById('calendarPopup');
+    var monthYearEl = document.getElementById('calendarMonthYear');
+    var daysEl = document.getElementById('calendarDays');
+    var prevBtn = document.getElementById('calendarPrev');
+    var nextBtn = document.getElementById('calendarNext');
+    var currentInput = null;
+    var viewDate = new Date();
+    var monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    function formatDateForInput(d) {
+      var m = d.getMonth() + 1;
+      var day = d.getDate();
+      var y = d.getFullYear();
+      return (m < 10 ? '0' : '') + m + '/' + (day < 10 ? '0' : '') + day + '/' + y;
+    }
+
+    function parseInputDate(str) {
+      if (!str || !str.trim()) return null;
+      var parts = str.trim().split(/[\/\-]/);
+      if (parts.length !== 3) return null;
+      var m = parseInt(parts[0], 10) - 1;
+      var d = parseInt(parts[1], 10);
+      var y = parseInt(parts[2], 10);
+      if (isNaN(m) || isNaN(d) || isNaN(y)) return null;
+      var date = new Date(y, m, d);
+      if (date.getFullYear() !== y || date.getMonth() !== m || date.getDate() !== d) return null;
+      return date;
+    }
+
+    function renderCalendar() {
+      if (!daysEl || !monthYearEl) return;
+      var year = viewDate.getFullYear();
+      var month = viewDate.getMonth();
+      monthYearEl.textContent = monthNames[month] + ' ' + year;
+
+      var first = new Date(year, month, 1);
+      var last = new Date(year, month + 1, 0);
+      var startDay = first.getDay();
+      var daysInMonth = last.getDate();
+      var today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      var selectedDate = null;
+      if (currentInput && currentInput.value) {
+        selectedDate = parseInputDate(currentInput.value);
+        if (selectedDate) selectedDate.setHours(0, 0, 0, 0);
+      }
+
+      daysEl.innerHTML = '';
+      var emptyCells = startDay;
+      for (var i = 0; i < emptyCells; i++) {
+        var empty = document.createElement('span');
+        empty.className = 'calendar-day other-month';
+        empty.textContent = '';
+        empty.style.visibility = 'hidden';
+        daysEl.appendChild(empty);
+      }
+      for (var d = 1; d <= daysInMonth; d++) {
+        (function (dayNum) {
+          var cell = document.createElement('button');
+          cell.type = 'button';
+          cell.className = 'calendar-day';
+          cell.textContent = dayNum;
+          var cellDate = new Date(year, month, dayNum);
+          cellDate.setHours(0, 0, 0, 0);
+          if (cellDate.getMonth() !== month) cell.classList.add('other-month');
+          if (cellDate.getTime() === today.getTime()) cell.classList.add('today');
+          if (selectedDate && cellDate.getTime() === selectedDate.getTime()) cell.classList.add('selected');
+          cell.addEventListener('click', function () {
+            var pick = new Date(year, month, dayNum);
+            if (currentInput) {
+              currentInput.value = formatDateForInput(pick);
+              currentInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+            closeCalendar();
+          });
+          daysEl.appendChild(cell);
+        })(d);
+      }
+    }
+
+    function openCalendar(input) {
+      currentInput = input;
+      var parsed = parseInputDate(input.value);
+      viewDate = parsed ? new Date(parsed.getFullYear(), parsed.getMonth(), 1) : new Date();
+      renderCalendar();
+      popup.classList.add('is-open');
+      popup.setAttribute('aria-hidden', 'false');
+      var rect = input.getBoundingClientRect();
+      popup.style.left = rect.left + 'px';
+      popup.style.top = (rect.bottom + 4) + 'px';
+    }
+
+    function closeCalendar() {
+      popup.classList.remove('is-open');
+      popup.setAttribute('aria-hidden', 'true');
+      currentInput = null;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', function () {
+      viewDate.setMonth(viewDate.getMonth() - 1);
+      renderCalendar();
+    });
+    if (nextBtn) nextBtn.addEventListener('click', function () {
+      viewDate.setMonth(viewDate.getMonth() + 1);
+      renderCalendar();
+    });
+
+    document.querySelectorAll('.date-field').forEach(function (wrap) {
+      var input = wrap.querySelector('.date-input');
+      var icon = wrap.querySelector('.calendar-icon');
+      if (input) {
+        input.addEventListener('focus', function () { openCalendar(input); });
+        input.addEventListener('click', function () { openCalendar(input); });
+      }
+      if (icon) icon.addEventListener('click', function () {
+        if (input) openCalendar(input);
+      });
+    });
+
+    document.addEventListener('click', function (e) {
+      if (popup.classList.contains('is-open') && !popup.contains(e.target) && !e.target.closest('.date-field')) {
+        closeCalendar();
+      }
+    });
+  })();
 
   // Employee / Contractor radio: switch labels and show/hide employee-only blocks
   var workerSection = document.getElementById('workerSection');

@@ -277,23 +277,23 @@
         </div>
         <div class="field-group">
           <label class="required">*Pay Period Start</label>
-          <div class="input-with-icon">
-            <input type="text" name="payPeriodStart" placeholder="" class="date-input">
-            <span class="calendar-icon">📅</span>
+          <div class="input-with-icon date-field">
+            <input type="text" name="payPeriodStart" placeholder="MM/DD/YYYY" class="date-input" autocomplete="off">
+            <span class="calendar-icon" aria-label="Open calendar">📅</span>
           </div>
         </div>
         <div class="field-group">
           <label class="required">*Pay Period End</label>
-          <div class="input-with-icon">
-            <input type="text" name="payPeriodEnd" placeholder="" class="date-input">
-            <span class="calendar-icon">📅</span>
+          <div class="input-with-icon date-field">
+            <input type="text" name="payPeriodEnd" placeholder="MM/DD/YYYY" class="date-input" autocomplete="off">
+            <span class="calendar-icon" aria-label="Open calendar">📅</span>
           </div>
         </div>
         <div class="field-group">
           <label class="required">*Payday</label>
-          <div class="input-with-icon">
-            <input type="text" name="payday" placeholder="" class="date-input">
-            <span class="calendar-icon">📅</span>
+          <div class="input-with-icon date-field">
+            <input type="text" name="payday" placeholder="MM/DD/YYYY" class="date-input" autocomplete="off">
+            <span class="calendar-icon" aria-label="Open calendar">📅</span>
           </div>
         </div>
         <div class="field-group">
@@ -360,14 +360,14 @@
             <label>Amount</label>
             <div class="input-prefix earning-calc">
               <span class="prefix">$</span>
-              <input type="text" name="earningAmount_0" id="earningAmountOriginal" value="0" readonly class="earning-amount-display">
+              <input type="text" name="earningAmount_0" id="earningAmountOriginal" value="0" class="amount-input">
             </div>
           </div>
           <div class="field-group">
             <label>YTD Amount</label>
             <div class="input-prefix earning-calc">
               <span class="prefix">$</span>
-              <input type="text" name="earningYtd_0" id="earningYtdOriginal" value="0" readonly class="earning-amount-display">
+              <input type="text" name="earningYtd_0" id="earningYtdOriginal" value="0" class="amount-input">
             </div>
           </div>
         </div>
@@ -540,6 +540,21 @@
       <button type="button" class="btn-primary" id="previewBtn">
         <span class="btn-eye">👁</span> Preview Paystub
       </button>
+    </div>
+  </div>
+
+  <!-- Calendar popup -->
+  <div class="calendar-popup" id="calendarPopup" aria-hidden="true">
+    <div class="calendar-popup-inner">
+      <div class="calendar-header">
+        <button type="button" class="calendar-nav" id="calendarPrev" aria-label="Previous month">‹</button>
+        <span class="calendar-month-year" id="calendarMonthYear"></span>
+        <button type="button" class="calendar-nav" id="calendarNext" aria-label="Next month">›</button>
+      </div>
+      <div class="calendar-weekdays">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="calendar-days" id="calendarDays"></div>
     </div>
   </div>
 
