@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create your paystub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="form-wrapper">
+    <h1 class="page-title">Create your paystub</h1>
+
+    <!-- 1. Company Information -->
+    <section class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">1. Company Information</h2>
+        <p class="section-desc">Enter your company's official business details as they appear on tax documents.</p>
+        <span class="required-note">Fields marked with an asterisk (*) are mandatory.</span>
+      </div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label class="required">*Company Name</label>
+          <div class="input-with-info">
+            <input type="text" name="companyName" placeholder="">
+            <span class="info-icon" title="Company legal name">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>&nbsp;</label>
+          <div class="input-with-info">
+            <button type="button" class="btn-secondary"><span class="btn-icon">📁</span> Select from Address Book</button>
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Company EIN</label>
+          <div class="input-with-info">
+            <input type="text" name="companyEIN" placeholder="" maxlength="9">
+            <span class="info-icon">ⓘ</span>
+          </div>
+          <span class="helper">Company's 9-digit Employer Identification Number</span>
+        </div>
+        <div class="field-group full-width">
+          <label class="required">*Company Address</label>
+          <input type="text" name="companyAddress" placeholder="">
+          <span class="helper">Provide your company's primary business address (street, city, state, ZIP) as it should appear on paystub</span>
+        </div>
+        <div class="field-group">
+          <label class="required">*Company City</label>
+          <input type="text" name="companyCity" placeholder="">
+        </div>
+        <div class="field-group">
+          <label class="required">*State</label>
+          <select name="companyState">
+            <option value="">-- Select --</option>
+            <option value="AL">Alabama</option>
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+            <option value="NY">New York</option>
+            <option value="FL">Florida</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="required">*Zip Code</label>
+          <input type="text" name="companyZip" placeholder="">
+        </div>
+        <div class="field-group">
+          <label>Company Logo</label>
+          <button type="button" class="btn-secondary"><span class="btn-icon">📎</span> Upload Logo</button>
+          <span class="helper">Upload your company logo from the local device.</span>
+        </div>
+        <div class="field-group template-field">
+          <label class="required">*Paystub Template</label>
+          <div class="input-with-info template-box">
+            <div class="template-preview">
+              <div class="template-thumb"></div>
+              <span>Modern: Fire</span>
+            </div>
+            <span class="info-icon">ⓘ</span>
+          </div>
+          <a href="#" class="link">Change Paystub Template</a>
+        </div>
+        <div class="field-group">
+          <label class="required">*Email Address</label>
+          <div class="input-with-info">
+            <input type="email" name="companyEmail" placeholder="">
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Phone</label>
+          <div class="input-with-info">
+            <input type="tel" name="companyPhone" placeholder="">
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. Employee/Contractor Information -->
+    <section class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">2. Employee/Contractor Information</h2>
+        <p class="section-desc">Enter the worker's personal and employment details as they appear on tax documents for accurate paystub generation.</p>
+      </div>
+      <div class="form-grid">
+        <div class="field-group full-width radio-group">
+          <label class="required">*Create pay stub for</label>
+          <div class="radio-row">
+            <label class="radio-label">
+              <input type="radio" name="workerType" value="employee" checked>
+              <span class="radio-custom"></span>
+              Employee
+            </label>
+            <span class="info-icon">ⓘ</span>
+            <label class="radio-label">
+              <input type="radio" name="workerType" value="contractor">
+              <span class="radio-custom"></span>
+              Contractor
+            </label>
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*Employee Name</label>
+          <div class="input-with-info">
+            <input type="text" name="employeeName" placeholder="" class="required-input">
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*SSN (Last 4 digits)</label>
+          <div class="input-with-info">
+            <input type="text" name="ssnLast4" placeholder="XXX-XX-" maxlength="11" class="ssn-input required-input">
+            <span class="info-icon">ⓘ</span>
+          </div>
+        </div>
+        <div class="field-group full-width">
+          <label>Employee Address</label>
+          <input type="text" name="employeeAddress" placeholder="">
+        </div>
+        <div class="field-group">
+          <label>City</label>
+          <input type="text" name="employeeCity" placeholder="">
+        </div>
+        <div class="field-group">
+          <label>State</label>
+          <select name="employeeState">
+            <option value="">-- Select --</option>
+            <option value="AL">Alabama</option>
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label>Zip Code</label>
+          <input type="text" name="employeeZip" placeholder="">
+        </div>
+        <span class="helper full-width">Provide the worker's current residential address (street, city, state, ZIP) for payroll records and tax documentation.</span>
+        <div class="field-group">
+          <label>Employee ID</label>
+          <div class="input-with-info">
+            <input type="text" name="employeeId" placeholder="">
+            <span class="info-icon">ⓘ</span>
+          </div>
+          <span class="helper">Code or Number you use to uniquely identify this Employee.</span>
+        </div>
+        <div class="field-group checkbox-field">
+          <label>&nbsp;</label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="hiredThisYear">
+            <span class="checkbox-custom"></span>
+            This employee was hired this year
+          </label>
+          <span class="info-icon">ⓘ</span>
+        </div>
+        <div class="field-group full-width">
+          <label class="checkbox-label standalone">
+            <input type="checkbox" name="differentStateTax">
+            <span class="checkbox-custom"></span>
+            Calculate taxes & deductions based on a different state
+          </label>
+          <span class="info-icon">ⓘ</span>
+        </div>
+      </div>
+
+      <!-- Federal Information -->
+      <div class="subsection">
+        <hr class="section-divider">
+        <h3 class="subsection-title">Federal Information <span class="info-icon">ⓘ</span></h3>
+        <p class="section-desc">Enter federal tax withholding information from the employee's Form W-4 to calculate accurate federal income tax deductions.</p>
+        <label class="checkbox-label">
+          <input type="checkbox" name="w4_2020" checked>
+          <span class="checkbox-custom"></span>
+          Use 2020 Form W-4 for federal withholding calculation
+        </label>
+        <p class="section-desc">Enter the information in the appropriate fields as mentioned in the employee's Form W-4.</p>
+        <div class="field-group">
+          <label>Filing Status (Step 1c)</label>
+          <select name="filingStatus" class="active-select">
+            <option value="single">Single or Married filing separately</option>
+            <option value="married">Married filing jointly</option>
+            <option value="head">Head of household</option>
+          </select>
+        </div>
+        <a href="#" class="link with-caret">Show Additional Info <span class="caret">▼</span></a>
+      </div>
+
+      <!-- State Information (first occurrence) -->
+      <div class="subsection">
+        <hr class="section-divider">
+        <h3 class="subsection-title">State Information <span class="info-icon">ⓘ</span></h3>
+        <p class="section-desc">Enter state tax withholding information based on the employee's work location and state tax forms to calculate accurate state income tax deductions.</p>
+      </div>
+    </section>
+
+    <!-- State Information (standalone section for state dropdown) -->
+    <section class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">State Information <span class="info-icon">ⓘ</span></h2>
+        <p class="section-desc">Enter state tax withholding information based on the employee's work location and state tax forms to calculate accurate state income tax deductions.</p>
+      </div>
+      <div class="form-grid">
+        <div class="field-group">
+          <label>State</label>
+          <select name="taxState" class="state-select">
+            <option value="">-- Please choose company state --</option>
+            <option value="AL">Alabama</option>
+            <option value="CA">California</option>
+            <option value="TX">Texas</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. Salary Information -->
+    <section class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">3. Salary Information <span class="info-icon">ⓘ</span></h2>
+        <p class="section-desc">Enter the worker's compensation details and pay period information to calculate gross earnings for this paystub.</p>
+      </div>
+      <div class="form-grid">
+        <div class="field-group full-width radio-group">
+          <label class="required">*Employee Wage Type</label>
+          <div class="radio-row">
+            <label class="radio-label">
+              <input type="radio" name="wageType" value="salary" checked>
+              <span class="radio-custom"></span>
+              Salary
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="wageType" value="hourly">
+              <span class="radio-custom"></span>
+              Hourly
+            </label>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*Annual wage</label>
+          <div class="input-prefix">
+            <span class="prefix">$</span>
+            <input type="text" name="annualWage" placeholder="">
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Pay Schedule</label>
+          <select name="paySchedule" class="active-select">
+            <option value="weekly">Weekly</option>
+            <option value="biweekly">Bi-Weekly</option>
+            <option value="semimonthly" selected>Semi-Monthly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="required">*Pay Period Start</label>
+          <div class="input-with-icon">
+            <input type="text" name="payPeriodStart" placeholder="" class="date-input">
+            <span class="calendar-icon">📅</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*Pay Period End</label>
+          <div class="input-with-icon">
+            <input type="text" name="payPeriodEnd" placeholder="" class="date-input">
+            <span class="calendar-icon">📅</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*Payday</label>
+          <div class="input-with-icon">
+            <input type="text" name="payday" placeholder="" class="date-input">
+            <span class="calendar-icon">📅</span>
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="required">*No. of Hours</label>
+          <input type="text" name="hours" value="86.67" class="active-input">
+          <span class="helper">Employee work hours for the selected pay period</span>
+        </div>
+        <div class="field-group">
+          <label class="required">*Check Number</label>
+          <input type="text" name="checkNumber" placeholder="" maxlength="4">
+          <span class="helper">Unique number of up to 4 digits, which can be your check number that you provide to Employees.</span>
+        </div>
+        <div class="field-group checkbox-field">
+          <label>&nbsp;</label>
+          <label class="checkbox-label">
+            <input type="checkbox" name="hideCheckNumber">
+            <span class="checkbox-custom"></span>
+            Hide check number on paystub
+          </label>
+          <span class="info-icon">ⓘ</span>
+        </div>
+      </div>
+      <p class="calculation-note"><em>*Gross Earnings will be automatically calculated based on the Wage/Pay Rate, Pay Schedule and Hours worked</em></p>
+    </section>
+
+    <!-- Earnings -->
+    <section class="form-section">
+      <div class="section-header flex-row">
+        <div>
+          <h2 class="section-title">Earnings <span class="info-icon">ⓘ</span></h2>
+          <p class="section-desc">Enter all types of compensation for this pay period, including regular pay, overtime, bonuses, and commissions. Click 'Add another earning' to include multiple earnings.</p>
+        </div>
+      </div>
+      <div class="earnings-table">
+        <div class="earning-row" data-index="0">
+          <div class="field-group">
+            <label>Earning</label>
+            <select name="earningType_0">
+              <option value="regular" selected>Regular Earnings</option>
+              <option value="overtime">Overtime</option>
+              <option value="bonus">Bonus</option>
+              <option value="commission">Commission</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Amount</label>
+            <input type="text" name="earningAmount_0" value="$0.00" class="amount-input">
+          </div>
+          <div class="field-group">
+            <label>Hours</label>
+            <input type="text" name="earningHours_0" value="0.00 hrs" class="amount-input">
+          </div>
+          <div class="field-group">
+            <label>YTD Amount</label>
+            <div class="input-prefix">
+              <span class="prefix">$</span>
+              <input type="text" name="earningYtd_0" placeholder="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-secondary btn-add" id="addEarning">+ Add Another Earning</button>
+    </section>
+
+    <!-- Deductions -->
+    <section class="form-section">
+      <div class="section-header flex-row">
+        <div>
+          <h2 class="section-title">Deductions <span class="info-icon">ⓘ</span></h2>
+          <p class="section-desc">Enter all deductions taken from the gross pay, such as taxes, insurance, and retirement contributions. Click 'Add another deduction' to include multiple deductions.</p>
+        </div>
+        <button type="button" class="btn-secondary btn-add" id="addDeduction">+ Add Deduction</button>
+      </div>
+      <hr class="section-divider">
+    </section>
+
+    <!-- Time Off -->
+    <section class="form-section">
+      <div class="section-header flex-row">
+        <div>
+          <h2 class="section-title">Time Off</h2>
+          <p class="section-desc">Enter the worker's paid time off balances and usage for this pay period, including vacation, sick leave, and personal time. Click 'Add another time off' to include multiple time off types.</p>
+        </div>
+        <button type="button" class="btn-secondary btn-add" id="addTimeOff">+ Add Time Off</button>
+      </div>
+      <hr class="section-divider">
+    </section>
+
+    <!-- Direct Deposit Slip -->
+    <section class="form-section">
+      <div class="section-header flex-row">
+        <div>
+          <h2 class="section-title">Direct Deposit Slip</h2>
+          <p class="section-desc">Add direct deposit details to the paystub for record-keeping purposes. Optionally enter bank name, routing number, and account number to display direct deposit details.</p>
+        </div>
+        <label class="checkbox-label checkbox-right">
+          <input type="checkbox" name="addDirectDeposit">
+          <span class="checkbox-custom"></span>
+          Add Direct Deposit Slip
+        </label>
+      </div>
+      <hr class="section-divider">
+    </section>
+
+    <!-- Employee Taxes -->
+    <section class="form-section">
+      <div class="section-header">
+        <h2 class="section-title">Employee Taxes <span class="info-icon">ⓘ</span></h2>
+      </div>
+      <div class="taxes-box">
+        <div class="taxes-placeholder">
+          <div class="taxes-blur">
+            <table class="taxes-table">
+              <thead>
+                <tr><th>Description</th><th>Amount</th><th>Action</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>—</td><td>—</td><td>—</td></tr>
+              </tbody>
+            </table>
+            <div class="tax-totals">Gross Pay ··· Net Pay</div>
+          </div>
+        </div>
+        <button type="button" class="btn-secondary btn-calculate"><span class="calc-icon"></span> Calculate Taxes</button>
+      </div>
+    </section>
+
+    <!-- Warning & Submit -->
+    <div class="form-footer">
+      <div class="warning-bar" id="warningBar">
+        <span class="warning-icon">!</span>
+        <span>Please complete the mandatory fields to preview paystubs</span>
+      </div>
+      <button type="button" class="btn-primary" id="previewBtn">
+        <span class="btn-eye">👁</span> Preview Paystub
+      </button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
