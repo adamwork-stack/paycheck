@@ -514,6 +514,99 @@
     });
   }
 
+  // Calculate Taxes: standard US payroll formulas
+  (function () {
+    var FICA_RATE = 0.062;
+    var FICA_WAGE_BASE_ANNUAL = 168600;
+    var MEDICARE_RATE = 0.0145;
+    var STD_DEDUCTION_SINGLE = 14600;
+    var STD_DEDUCTION_MARRIED = 29200;
+    var BRACKETS_SINGLE = [
+      [11600, 0.10], [47150, 0.12], [100525, 0.22], [191950, 0.24], [243725, 0.32], [609350, 0.35], [Infinity, 0.37]
+    ];
+    var BRACKETS_MARRIED = [
+      [23200, 0.10], [94300, 0.12], [201050, 0.22], [383900, 0.24], [487450, 0.32], [731200, 0.35], [Infinity, 0.37]
+    ];
+
+    function parseNum(str) {
+      if (str == null || str === '') return 0;
+      var n = parseFloat(String(str).replace(/[^0-9.-]/g, ''), 10);
+      return isNaN(n) ? 0 : n;
+    }
+
+    function federalWithholding(annualGross, filingStatus) {
+      var std = (filingStatus === 'married-widow' || filingStatus === 'married') ? STD_DEDUCTION_MARRIED : STD_DEDUCTION_SINGLE;
+      var taxable = Math.max(0, annualGross - std);
+      var brackets = (filingStatus === 'married-widow' || filingStatus === 'married') ? BRACKETS_MARRIED : BRACKETS_SINGLE;
+      var tax = 0;
+      var prev = 0;
+      for (var i = 0; i < brackets.length; i++) {
+        var limit = brackets[i][0];
+        var rate = brackets[i][1];
+        if (taxable <= prev) break;
+        var slice = Math.min(taxable, limit) - prev;
+        tax += slice * rate;
+        prev = limit;
+      }
+      return Math.round(tax * 100) / 100;
+    }
+
+    function runCalculateTaxes() {
+      var grossEl = document.getElementById('earningAmountOriginal');
+      var gross = parseNum(grossEl ? grossEl.value : 0);
+      if (gross <= 0) {
+        gross = parseNum(document.querySelector('input[name="earningAmount_0"]') ? document.querySelector('input[name="earningAmount_0"]').value : 0);
+      }
+      var schedule = (document.getElementById('paySchedule') && document.getElementById('paySchedule').value) || 'semimonthly';
+      var periodsMap = { daily: 260, weekly: 52, biweekly: 26, semimonthly: 24, monthly: 12, quarterly: 4, semiannually: 2, annually: 1 };
+      var periodsPerYear = periodsMap[schedule] || 24;
+      var annualGross = gross * periodsPerYear;
+      var filingStatus = (document.getElementById('filingStatusSelect') && document.getElementById('filingStatusSelect').value) || 'single-separately';
+
+      var federalAnnual = federalWithholding(annualGross, filingStatus);
+      var federal = Math.round((federalAnnual / periodsPerYear) * 100) / 100;
+
+      var ficaCapPerPeriod = FICA_WAGE_BASE_ANNUAL / periodsPerYear;
+      var fica = Math.round(Math.min(gross, ficaCapPerPeriod) * FICA_RATE * 100) / 100;
+
+      var medicare = Math.round(gross * MEDICARE_RATE * 100) / 100;
+
+      var stateAbbr = (document.querySelector('select[name="companyState"]') && document.querySelector('select[name="companyState"]').value) || '';
+      var stateRate = stateAbbr ? 0.04 : 0;
+      var state = Math.round(gross * stateRate * 100) / 100;
+
+      var totalTax = federal + fica + medicare + state;
+      var netPay = Math.round((gross - totalTax) * 100) / 100;
+
+      function setTax(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.value = val.toFixed(2);
+      }
+      function setNet(id, val) {
+        var el = document.getElementById(id);
+        if (el) el.textContent = '$' + val.toFixed(2);
+      }
+
+      setTax('taxFederal', federal);
+      setTax('taxFederalYtd', federal);
+      setTax('taxFica', fica);
+      setTax('taxFicaYtd', fica);
+      setTax('taxMedicare', medicare);
+      setTax('taxMedicareYtd', medicare);
+      setTax('taxState', state);
+      setTax('taxStateYtd', state);
+      setNet('taxNetPay', netPay);
+      setNet('taxNetPayYtd', netPay);
+
+      var stateLabel = document.getElementById('taxStateLabel');
+      if (stateLabel && stateAbbr) stateLabel.textContent = stateAbbr + ' State';
+      else if (stateLabel) stateLabel.textContent = 'State';
+    }
+
+    var calcBtn = document.getElementById('calculateTaxesBtn');
+    if (calcBtn) calcBtn.addEventListener('click', runCalculateTaxes);
+  })();
+
   // Calendar popup for date fields
   (function () {
     var popup = document.getElementById('calendarPopup');

@@ -514,20 +514,44 @@
         <h2 class="section-title">Employee Taxes <span class="info-icon">ⓘ</span></h2>
       </div>
       <div class="taxes-box">
-        <div class="taxes-placeholder">
-          <div class="taxes-blur">
-            <table class="taxes-table">
-              <thead>
-                <tr><th>Description</th><th>Amount</th><th>Action</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>—</td><td>—</td><td>—</td></tr>
-              </tbody>
-            </table>
-            <div class="tax-totals">Gross Pay ··· Net Pay</div>
+        <table class="taxes-table" id="taxesTable">
+          <thead>
+            <tr><th>Description</th><th>Tax</th><th>YTD</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Federal</td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxFederal" readonly class="tax-amount-input"></div></td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxFederalYtd" readonly class="tax-amount-input"></div></td>
+            </tr>
+            <tr>
+              <td>FICA</td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxFica" readonly class="tax-amount-input"></div></td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxFicaYtd" readonly class="tax-amount-input"></div></td>
+            </tr>
+            <tr>
+              <td>Medicare</td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxMedicare" readonly class="tax-amount-input"></div></td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxMedicareYtd" readonly class="tax-amount-input"></div></td>
+            </tr>
+            <tr>
+              <td id="taxStateLabel">State</td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxState" readonly class="tax-amount-input"></div></td>
+              <td><div class="input-prefix taxes-amount"><span class="prefix">$</span><input type="text" id="taxStateYtd" readonly class="tax-amount-input"></div></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="tax-totals-row">
+          <div class="tax-net-row">
+            <span class="tax-net-label">Net Pay</span>
+            <span class="tax-net-value" id="taxNetPay">$0.00</span>
+          </div>
+          <div class="tax-net-row">
+            <span class="tax-net-label">YTD Net Pay</span>
+            <span class="tax-net-value" id="taxNetPayYtd">$0.00</span>
           </div>
         </div>
-        <button type="button" class="btn-secondary btn-calculate"><span class="calc-icon"></span> Calculate Taxes</button>
+        <button type="button" class="btn-secondary btn-calculate" id="calculateTaxesBtn"><span class="calc-icon"></span> Calculate Taxes</button>
       </div>
     </section>
 
