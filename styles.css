@@ -286,7 +286,7 @@ select.active-select {
 .template-thumb {
   width: 48px;
   height: 32px;
-  background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+  background: #c0392b;
   border-radius: 4px;
 }
 
@@ -544,4 +544,243 @@ select.active-select {
   .section-header.flex-row {
     flex-direction: column;
   }
+}
+
+/* Template box clickable */
+.template-box {
+  cursor: pointer;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-overlay.is-open {
+  display: flex;
+}
+
+.modal-template {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d2d2d;
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #666;
+  cursor: pointer;
+  padding: 0.25rem;
+}
+
+.modal-close:hover {
+  color: #333;
+}
+
+.modal-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.modal-sidebar {
+  width: 160px;
+  flex-shrink: 0;
+  padding: 1rem;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  overflow-y: auto;
+}
+
+.template-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fafafa;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.template-card:hover {
+  background: #f0f0f0;
+  border-color: #ccc;
+}
+
+.template-card.active {
+  border-color: #4a9b6e;
+  background: #f0f9f4;
+}
+
+.template-card-thumb {
+  width: 100%;
+  aspect-ratio: 1.8;
+  border-radius: 4px;
+}
+
+.thumb-modern { background: linear-gradient(180deg, #c0392b 0%, #e74c3c 30%, #fff 30%); }
+.thumb-classic { background: linear-gradient(180deg, #2c3e50 0%, #34495e 25%, #ecf0f1 25%); }
+.thumb-simple { background: linear-gradient(180deg, #2980b9 0%, #3498db 20%, #fff 20%); }
+.thumb-contractor { background: linear-gradient(180deg, #8e44ad 0%, #9b59b6 25%, #fff 25%); }
+.thumb-contractor-no-ytd { background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 25%, #fff 25%); }
+
+.template-card span {
+  font-size: 12px;
+  font-weight: 500;
+  color: #333;
+  text-align: center;
+}
+
+.modal-preview {
+  flex: 1;
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.color-swatches {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 6px;
+  padding: 0.25rem;
+}
+
+.color-swatch:hover {
+  border-color: #ccc;
+}
+
+.color-swatch.active {
+  border-color: #333;
+}
+
+.color-swatch-circle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.color-swatch-label {
+  font-size: 11px;
+  color: #555;
+  max-width: 70px;
+  text-align: center;
+}
+
+.paystub-preview {
+  font-size: 12px;
+  color: #333;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  padding: 1rem;
+  background: #fafafa;
+}
+
+.paystub-preview .preview-company { grid-area: company; }
+.paystub-preview .preview-earnings-header { grid-area: earnings-header; text-align: right; }
+.paystub-preview .preview-employee { grid-area: employee; }
+.paystub-preview .preview-period { grid-area: period; }
+.paystub-preview .preview-table { grid-area: table; width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+.paystub-preview .preview-summary { grid-area: summary; display: flex; gap: 2rem; margin-top: 0.5rem; }
+
+.paystub-preview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "company earnings-header"
+    "employee period"
+    "table table"
+    "summary summary";
+  gap: 0.5rem 1rem;
+}
+
+.paystub-preview .preview-table thead th {
+  background: #2980b9;
+  color: #fff;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.paystub-preview .preview-table tbody td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.paystub-preview .preview-period {
+  background: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.paystub-preview .preview-period-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.paystub-preview .preview-summary-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.paystub-preview .preview-summary-row.accent {
+  background: #2980b9;
+  color: #fff;
+  margin: 0 -0.25rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 1px solid #e0e0e0;
 }
