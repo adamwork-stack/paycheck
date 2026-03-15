@@ -485,6 +485,39 @@
     if (e.target.classList.contains('btn-remove')) e.target.closest('.timeoff-row').remove();
   });
 
+  function updateTimeOffEndBalance(row) {
+    if (!row) return;
+    var startInput = row.querySelector('input[name^="timeoffStartBalance_"]');
+    var spentInput = row.querySelector('input[name^="timeoffSpent_"]');
+    var earnedInput = row.querySelector('input[name^="timeoffEarned_"]');
+    var endInput = row.querySelector('input[name^="timeoffEndBalance_"]');
+    if (!startInput || !spentInput || !earnedInput || !endInput) return;
+    var start = parseFloat(String(startInput.value).replace(/[^0-9.-]/g, '')) || 0;
+    var spent = parseFloat(String(spentInput.value).replace(/[^0-9.-]/g, '')) || 0;
+    var earned = parseFloat(String(earnedInput.value).replace(/[^0-9.-]/g, '')) || 0;
+    var end = Math.round((start - spent + earned) * 100) / 100;
+    endInput.value = isNaN(end) ? '' : String(end);
+  }
+
+  var timeoffContainer = document.querySelector('.timeoff-container');
+  if (timeoffContainer) {
+    timeoffContainer.addEventListener('input', function (e) {
+      var name = e.target && e.target.getAttribute('name');
+      if (name && (name.indexOf('timeoffStartBalance_') === 0 || name.indexOf('timeoffSpent_') === 0 || name.indexOf('timeoffEarned_') === 0)) {
+        updateTimeOffEndBalance(e.target.closest('.timeoff-row'));
+      }
+    });
+    timeoffContainer.addEventListener('change', function (e) {
+      var name = e.target && e.target.getAttribute('name');
+      if (name && (name.indexOf('timeoffStartBalance_') === 0 || name.indexOf('timeoffSpent_') === 0 || name.indexOf('timeoffEarned_') === 0)) {
+        updateTimeOffEndBalance(e.target.closest('.timeoff-row'));
+      }
+    });
+    setTimeout(function () {
+      document.querySelectorAll('.timeoff-row').forEach(updateTimeOffEndBalance);
+    }, 0);
+  }
+
   function getRequiredFields() {
     return document.querySelectorAll('.form-wrapper input[class*="required-input"], .form-wrapper input[name="companyName"], .form-wrapper input[name="companyAddress"], .form-wrapper input[name="companyCity"], .form-wrapper select[name="companyState"], .form-wrapper input[name="companyZip"], .form-wrapper input[name="companyEmail"]');
   }
