@@ -743,6 +743,11 @@ select.active-select {
   color: #a00;
 }
 
+.timeoff-end-balance {
+  background: #e8e8e8 !important;
+  cursor: default;
+}
+
 /* Responsive */
 @media (max-width: 700px) {
   .form-grid {
