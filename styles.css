@@ -459,6 +459,18 @@ select.active-select {
   border-color: #e0e0e0;
 }
 
+.input-readonly input[readonly],
+.earning-row-original select:disabled {
+  background: #e8e8e8 !important;
+  cursor: not-allowed;
+  color: #555;
+}
+
+.earning-row-original .input-prefix.input-readonly {
+  background: #e8e8e8;
+  border-color: #d0d0d0;
+}
+
 .amount-input {
   background: #fafef8 !important;
 }

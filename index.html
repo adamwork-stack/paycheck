@@ -298,7 +298,7 @@
         </div>
         <div class="field-group">
           <label class="required">*No. of Hours</label>
-          <input type="text" name="hours" value="86.67" class="active-input">
+          <input type="text" name="hours" id="salaryHours" value="86.6" class="active-input">
           <span class="helper">Employee work hours for the selected pay period</span>
         </div>
         <div class="field-group">
@@ -331,7 +331,7 @@
         <div class="earning-row earning-row-original" data-index="0">
           <div class="field-group">
             <label>Earning</label>
-            <select name="earningType_0" class="active-select">
+            <select name="earningType_0" class="active-select" id="earningTypeOriginal" disabled>
               <option value="regular" selected>Regular Earnings</option>
               <option value="overtime">Overtime</option>
               <option value="overtime-hourly">Overtime Hourly</option>
@@ -347,14 +347,14 @@
           </div>
           <div class="field-group">
             <label>Rate / Amount</label>
-            <div class="input-prefix">
+            <div class="input-prefix input-readonly">
               <span class="prefix">$</span>
-              <input type="text" name="earningRate_0" value="0.00" class="amount-input" placeholder="0.00">
+              <input type="text" name="earningRate_0" value="0.00" class="amount-input" id="earningRateOriginal" readonly tabindex="-1">
             </div>
           </div>
           <div class="field-group">
             <label>Hours</label>
-            <input type="text" name="earningHours_0" value="0.00 hrs" class="amount-input">
+            <input type="text" name="earningHours_0" value="86.60 hrs" class="amount-input input-readonly" id="earningHoursOriginal" readonly tabindex="-1">
           </div>
           <div class="field-group">
             <label>Amount</label>

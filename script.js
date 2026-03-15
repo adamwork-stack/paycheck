@@ -231,6 +231,21 @@
     }
   });
 
+  var salaryHoursInput = document.getElementById('salaryHours');
+  var earningHoursOriginal = document.getElementById('earningHoursOriginal');
+  function syncSalaryHoursToEarning() {
+    if (!salaryHoursInput || !earningHoursOriginal) return;
+    var val = parseFloat(salaryHoursInput.value, 10);
+    if (!isNaN(val)) {
+      earningHoursOriginal.value = (Math.round(val * 100) / 100).toFixed(2) + ' hrs';
+    }
+  }
+  if (salaryHoursInput) {
+    salaryHoursInput.addEventListener('input', syncSalaryHoursToEarning);
+    salaryHoursInput.addEventListener('change', syncSalaryHoursToEarning);
+  }
+  syncSalaryHoursToEarning();
+
   function getDeductionsContainer() {
     const sections = document.querySelectorAll('.form-section');
     for (const s of sections) {
