@@ -375,4 +375,26 @@
   document.querySelectorAll('.date-input').forEach(function (input) {
     input.setAttribute('type', 'date');
   });
+
+  // Employee / Contractor radio: switch labels and show/hide employee-only blocks
+  var workerSection = document.getElementById('workerSection');
+  var workerNameLabel = document.getElementById('workerNameLabel');
+  var workerAddressLabel = document.getElementById('workerAddressLabel');
+  var workerIdLabel = document.getElementById('workerIdLabel');
+  var workerIdHelper = document.getElementById('workerIdHelper');
+  var workerTypeRadios = document.querySelectorAll('input[name="workerType"]');
+
+  function updateWorkerTypeUI() {
+    var isContractor = document.querySelector('input[name="workerType"]:checked').value === 'contractor';
+    if (workerSection) workerSection.classList.toggle('worker-contractor', isContractor);
+    if (workerNameLabel) workerNameLabel.textContent = isContractor ? '*Contractor Name' : '*Employee Name';
+    if (workerAddressLabel) workerAddressLabel.textContent = isContractor ? 'Contractor Address' : 'Employee Address';
+    if (workerIdLabel) workerIdLabel.textContent = isContractor ? 'Contractor ID' : 'Employee ID';
+    if (workerIdHelper) workerIdHelper.textContent = isContractor ? 'Code or Number you use to uniquely identify this Contractor.' : 'Code or Number you use to uniquely identify this Employee.';
+  }
+
+  workerTypeRadios.forEach(function (radio) {
+    radio.addEventListener('change', updateWorkerTypeUI);
+  });
+  updateWorkerTypeUI();
 })();

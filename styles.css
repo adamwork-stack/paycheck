@@ -546,6 +546,11 @@ select.active-select {
   }
 }
 
+/* Worker type: hide employee-only when contractor selected */
+.worker-section.worker-contractor .worker-employee-only {
+  display: none !important;
+}
+
 /* Template box clickable */
 .template-box {
   cursor: pointer;
