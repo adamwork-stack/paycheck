@@ -227,7 +227,7 @@
     </section>
 
     <!-- 3. Salary Information -->
-    <section class="form-section">
+    <section class="form-section salary-section" id="salarySection">
       <div class="section-header">
         <h2 class="section-title">3. Salary Information <span class="info-icon">ⓘ</span></h2>
         <p class="section-desc">Enter the worker's compensation details and pay period information to calculate gross earnings for this paystub.</p>
@@ -248,11 +248,18 @@
             </label>
           </div>
         </div>
-        <div class="field-group">
+        <div class="field-group wage-salary-only">
           <label class="required">*Annual wage</label>
           <div class="input-prefix">
             <span class="prefix">$</span>
             <input type="text" name="annualWage" placeholder="">
+          </div>
+        </div>
+        <div class="field-group wage-hourly-only">
+          <label class="required">*Hourly pay rate</label>
+          <div class="input-prefix">
+            <span class="prefix">$</span>
+            <input type="text" name="hourlyPayRate" placeholder="">
           </div>
         </div>
         <div class="field-group">

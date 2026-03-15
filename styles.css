@@ -573,6 +573,19 @@ select.active-select {
   display: none !important;
 }
 
+/* Salary section: show Annual wage or Hourly pay rate based on wage type */
+.salary-section .wage-hourly-only {
+  display: none !important;
+}
+
+.salary-section.wage-type-hourly .wage-salary-only {
+  display: none !important;
+}
+
+.salary-section.wage-type-hourly .wage-hourly-only {
+  display: flex !important;
+}
+
 /* Template box clickable */
 .template-box {
   cursor: pointer;

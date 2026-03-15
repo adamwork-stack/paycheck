@@ -440,6 +440,20 @@
   }
   updateFilingStatusForW4();
 
+  // Salary / Hourly: show Annual wage or Hourly pay rate
+  var salarySection = document.getElementById('salarySection');
+  var wageTypeRadios = document.querySelectorAll('input[name="wageType"]');
+  wageTypeRadios.forEach(function (radio) {
+    radio.addEventListener('change', function () {
+      if (salarySection) {
+        salarySection.classList.toggle('wage-type-hourly', this.value === 'hourly');
+      }
+    });
+  });
+  if (salarySection) {
+    salarySection.classList.toggle('wage-type-hourly', document.querySelector('input[name="wageType"]:checked').value === 'hourly');
+  }
+
   // Federal "Show Additional Info" / "Hide Additional Info" toggle
   var toggleFederalLink = document.getElementById('toggleFederalAdditional');
   var federalAdditionalInfo = document.getElementById('federalAdditionalInfo');
