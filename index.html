@@ -567,6 +567,25 @@
     </div>
   </div>
 
+  <!-- Preview Paystub modal -->
+  <div class="modal-overlay" id="previewPaystubModal" aria-hidden="true">
+    <div class="modal-preview-paystub">
+      <div class="modal-header">
+        <h2 class="modal-title">Preview Paystub</h2>
+        <button type="button" class="modal-close" id="closePreviewPaystubModal" aria-label="Close">&times;</button>
+      </div>
+      <div class="preview-paystub-body">
+        <div class="preview-paystub-doc" id="previewPaystubContent">
+          <!-- Filled by JS from form data -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" id="previewMakeChangesBtn">Make Changes</button>
+        <button type="button" class="btn-primary" id="previewProceedDownloadBtn">Proceed to Download <span class="btn-arrow">→</span></button>
+      </div>
+    </div>
+  </div>
+
   <!-- Calendar popup -->
   <div class="calendar-popup" id="calendarPopup" aria-hidden="true">
     <div class="calendar-popup-inner">

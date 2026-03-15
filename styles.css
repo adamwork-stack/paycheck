@@ -1025,3 +1025,111 @@ select.active-select {
   padding: 1rem 1.25rem;
   border-top: 1px solid #e0e0e0;
 }
+
+/* Preview Paystub modal */
+.modal-preview-paystub {
+  background: #fff;
+  border-radius: 8px;
+  max-width: 700px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.preview-paystub-body {
+  padding: 1rem 1.25rem;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.preview-paystub-doc {
+  font-size: 12px;
+  color: #333;
+  background: #fff;
+}
+
+.preview-paystub-doc .ps-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.preview-paystub-doc .ps-employee,
+.preview-paystub-doc .ps-company {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.preview-paystub-doc .ps-statement {
+  text-align: right;
+  font-weight: 600;
+}
+
+.preview-paystub-doc .ps-period-box {
+  background: #c0392b;
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  margin: 0.5rem 0 1rem;
+}
+
+.preview-paystub-doc .ps-period-box div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.preview-paystub-doc .ps-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0 1rem;
+  font-size: 12px;
+}
+
+.preview-paystub-doc .ps-table thead th {
+  background: #c0392b;
+  color: #fff;
+  padding: 0.4rem 0.5rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.preview-paystub-doc .ps-table thead th:not(:first-child),
+.preview-paystub-doc .ps-table td:not(:first-child) {
+  text-align: right;
+}
+
+.preview-paystub-doc .ps-table tbody td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.preview-paystub-doc .ps-summary {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e0e0e0;
+}
+
+.preview-paystub-doc .ps-summary-side {
+  flex: 1;
+}
+
+.preview-paystub-doc .ps-summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+}
+
+.preview-paystub-doc .ps-summary-row.accent {
+  color: #c0392b;
+  font-weight: 600;
+}
+
+.btn-arrow {
+  margin-left: 0.25rem;
+}

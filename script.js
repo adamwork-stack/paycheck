@@ -552,16 +552,175 @@
   }
   updateMandatoryUI();
 
+  var previewPaystubModal = document.getElementById('previewPaystubModal');
+  var previewPaystubContent = document.getElementById('previewPaystubContent');
+  var closePreviewPaystubModal = document.getElementById('closePreviewPaystubModal');
+  var previewMakeChangesBtn = document.getElementById('previewMakeChangesBtn');
+  var previewProceedDownloadBtn = document.getElementById('previewProceedDownloadBtn');
+
+  function getVal(name) {
+    var el = document.querySelector('[name="' + name + '"]');
+    return (el && el.value) ? el.value.trim() : '';
+  }
+
+  function getSelectText(name) {
+    var el = document.querySelector('select[name="' + name + '"]');
+    if (!el || !el.options[el.selectedIndex]) return '';
+    return el.options[el.selectedIndex].text;
+  }
+
+  function formatMoney(n) {
+    if (n === null || n === undefined || isNaN(n)) return '0.00';
+    return Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function buildPreviewPaystubHTML() {
+    var companyName = getVal('companyName') || '—';
+    var companyAddress = getVal('companyAddress') || '';
+    var companyCity = getVal('companyCity') || '';
+    var companyState = getVal('companyState') ? getSelectText('companyState').replace(/\s*\([A-Z]{2}\)\s*$/, '').trim() : '';
+    var companyZip = getVal('companyZip') || '';
+    var companyLine = [companyAddress, [companyCity, companyState, companyZip].filter(Boolean).join(', ')].filter(Boolean).join(', ');
+    var employeeName = getVal('employeeName') || '—';
+    var ssn = getVal('ssnLast4') ? '(XXX-XX-' + getVal('ssnLast4').replace(/\D/g, '').slice(-4) + ')' : '';
+    var empAddress = getVal('employeeAddress') || '';
+    var empCity = getVal('employeeCity') || '';
+    var empState = getVal('employeeState') ? getSelectText('employeeState').replace(/\s*\([A-Z]{2}\)\s*$/, '').trim() : '';
+    var empZip = getVal('employeeZip') || '';
+    var empLine = [empAddress, [empCity, empState, empZip].filter(Boolean).join(', ')].filter(Boolean).join(', ');
+    var checkNum = getVal('checkNumber') || '—';
+    var payDate = getVal('payday') || '—';
+    var paySchedule = getSelectText('paySchedule') || '—';
+    var periodStart = getVal('payPeriodStart') || '—';
+    var periodEnd = getVal('payPeriodEnd') || '—';
+
+    var earningsRows = [];
+    var gross = 0;
+    document.querySelectorAll('.earning-row').forEach(function (row) {
+      var typeEl = row.querySelector('select[name^="earningType_"]');
+      var rateEl = row.querySelector('input[name^="earningRate_"]');
+      var hoursEl = row.querySelector('input[name^="earningHours_"]');
+      var amountEl = row.querySelector('input[name^="earningAmount_"]');
+      var ytdEl = row.querySelector('input[name^="earningYtd_"]');
+      var type = typeEl && typeEl.options[typeEl.selectedIndex] ? typeEl.options[typeEl.selectedIndex].text : '—';
+      var rate = (rateEl && rateEl.value) ? rateEl.value.replace(/[^0-9.-]/g, '') : '0';
+      var hours = (hoursEl && hoursEl.value) ? hoursEl.value.replace(/[^0-9.]/g, '') : '0';
+      var amount = (amountEl && amountEl.value) ? amountEl.value.replace(/[^0-9.-]/g, '') : '0';
+      var ytd = (ytdEl && ytdEl.value) ? ytdEl.value.replace(/[^0-9.-]/g, '') : '0';
+      if (!rate && amount) rate = amount;
+      var amt = parseFloat(amount) || 0;
+      gross += amt;
+      earningsRows.push('<tr><td>' + type + '</td><td>$' + formatMoney(rate) + '</td><td>' + hours + '</td><td>$' + formatMoney(amount) + '</td><td>$' + formatMoney(ytd) + '</td></tr>');
+    });
+    if (earningsRows.length === 0) earningsRows.push('<tr><td>Regular Earnings</td><td>$0.00</td><td>0</td><td>$0.00</td><td>$0.00</td></tr>');
+
+    var taxRows = [];
+    var taxFederal = (document.getElementById('taxFederal') && document.getElementById('taxFederal').value) || '0';
+    var taxFica = (document.getElementById('taxFica') && document.getElementById('taxFica').value) || '0';
+    var taxMedicare = (document.getElementById('taxMedicare') && document.getElementById('taxMedicare').value) || '0';
+    var taxState = (document.getElementById('taxState') && document.getElementById('taxState').value) || '0';
+    var stateLabel = (document.getElementById('taxStateLabel') && document.getElementById('taxStateLabel').textContent) || 'State';
+    taxRows.push('<tr><td>Federal</td><td>$' + formatMoney(taxFederal) + '</td><td>$' + formatMoney(taxFederal) + '</td></tr>');
+    taxRows.push('<tr><td>FICA</td><td>$' + formatMoney(taxFica) + '</td><td>$' + formatMoney(taxFica) + '</td></tr>');
+    taxRows.push('<tr><td>Medicare</td><td>$' + formatMoney(taxMedicare) + '</td><td>$' + formatMoney(taxMedicare) + '</td></tr>');
+    taxRows.push('<tr><td>' + stateLabel + '</td><td>$' + formatMoney(taxState) + '</td><td>$' + formatMoney(taxState) + '</td></tr>');
+
+    document.querySelectorAll('.deduction-row').forEach(function (row) {
+      var typeEl = row.querySelector('select[name^="deductionType_"]');
+      var amountEl = row.querySelector('input[name^="deductionAmount_"]');
+      var ytdEl = row.querySelector('input[name^="deductionYtd_"]');
+      var type = typeEl && typeEl.options[typeEl.selectedIndex] ? typeEl.options[typeEl.selectedIndex].text : '—';
+      var amount = (amountEl && amountEl.value) ? amountEl.value.replace(/[^0-9.-]/g, '') : '0';
+      var ytd = (ytdEl && ytdEl.value) ? ytdEl.value.replace(/[^0-9.-]/g, '') : '0';
+      taxRows.push('<tr><td>' + type + '</td><td>$' + formatMoney(amount) + '</td><td>$' + formatMoney(ytd) + '</td></tr>');
+    });
+
+    var totalTaxDed = parseFloat(taxFederal) + parseFloat(taxFica) + parseFloat(taxMedicare) + parseFloat(taxState);
+    document.querySelectorAll('.deduction-row').forEach(function (row) {
+      var amountEl = row.querySelector('input[name^="deductionAmount_"]');
+      if (amountEl && amountEl.value) totalTaxDed += parseFloat(amountEl.value.replace(/[^0-9.-]/g, '')) || 0;
+    });
+    var netPay = gross - totalTaxDed;
+    var ytdGross = gross;
+    var ytdDed = totalTaxDed;
+    var ytdNet = netPay;
+
+    var timeOffRows = [];
+    document.querySelectorAll('.timeoff-row').forEach(function (row) {
+      var policyEl = row.querySelector('select[name^="timeoffPolicy_"]');
+      var startEl = row.querySelector('input[name^="timeoffStartBalance_"]');
+      var spentEl = row.querySelector('input[name^="timeoffSpent_"]');
+      var earnedEl = row.querySelector('input[name^="timeoffEarned_"]');
+      var endEl = row.querySelector('input[name^="timeoffEndBalance_"]');
+      var policy = policyEl && policyEl.options[policyEl.selectedIndex] ? policyEl.options[policyEl.selectedIndex].text : '—';
+      var start = (startEl && startEl.value) ? startEl.value : '0';
+      var spent = (spentEl && spentEl.value) ? spentEl.value : '0';
+      var earned = (earnedEl && earnedEl.value) ? earnedEl.value : '0';
+      var end = (endEl && endEl.value) ? endEl.value : '0';
+      timeOffRows.push('<tr><td>' + policy + '</td><td>' + start + '</td><td>' + spent + '</td><td>' + earned + '</td><td>' + end + '</td></tr>');
+    });
+    if (timeOffRows.length === 0) timeOffRows.push('<tr><td colspan="5">—</td></tr>');
+
+    return '<div class="ps-row"><div class="ps-company">' + escapeHtml(companyName) + '<br>' + escapeHtml(companyLine) + '</div></div>' +
+      '<div class="ps-row">' +
+      '<div class="ps-employee">' + escapeHtml(employeeName) + '<br>' + ssn + '<br>' + escapeHtml(empLine) + '</div>' +
+      '<div class="ps-statement">Earnings Statement<br>Check Number: ' + escapeHtml(checkNum) + '</div>' +
+      '</div>' +
+      '<div class="ps-period-box">' +
+      '<div><span>Pay Date</span><span>' + escapeHtml(payDate) + '</span></div>' +
+      '<div><span>Pay Schedule</span><span>' + escapeHtml(paySchedule) + '</span></div>' +
+      '<div><span>Pay Period</span><span>' + escapeHtml(periodStart) + ' to ' + escapeHtml(periodEnd) + '</span></div>' +
+      '</div>' +
+      '<table class="ps-table"><thead><tr><th>Earnings</th><th>Rate</th><th>Hours</th><th>Total</th><th>YTD</th></tr></thead><tbody>' + earningsRows.join('') + '</tbody></table>' +
+      '<table class="ps-table"><thead><tr><th>Taxes / Deductions</th><th>Current</th><th>YTD</th></tr></thead><tbody>' + taxRows.join('') + '</tbody></table>' +
+      '<table class="ps-table"><thead><tr><th>Time Off</th><th>Start Balance</th><th>Spent Hours</th><th>Earned Hours</th><th>End Balance</th></tr></thead><tbody>' + timeOffRows.join('') + '</tbody></table>' +
+      '<div class="ps-summary">' +
+      '<div class="ps-summary-side"><div class="ps-summary-row"><span>YTD Gross</span><span>$' + formatMoney(ytdGross) + '</span></div><div class="ps-summary-row"><span>YTD Taxes / Deductions</span><span>$' + formatMoney(ytdDed) + '</span></div><div class="ps-summary-row accent"><span>YTD Net Pay</span><span>$' + formatMoney(ytdNet) + '</span></div></div>' +
+      '<div class="ps-summary-side"><div class="ps-summary-row"><span>Gross</span><span>$' + formatMoney(gross) + '</span></div><div class="ps-summary-row"><span>Taxes / Deductions</span><span>$' + formatMoney(totalTaxDed) + '</span></div><div class="ps-summary-row accent"><span>Net Pay</span><span>$' + formatMoney(netPay) + '</span></div></div>' +
+      '</div>';
+  }
+
+  function escapeHtml(s) {
+    if (!s) return '';
+    var div = document.createElement('div');
+    div.textContent = s;
+    return div.innerHTML;
+  }
+
+  function openPreviewPaystubModal() {
+    if (previewPaystubContent) previewPaystubContent.innerHTML = buildPreviewPaystubHTML();
+    if (previewPaystubModal) {
+      previewPaystubModal.classList.add('is-open');
+      previewPaystubModal.setAttribute('aria-hidden', 'false');
+    }
+  }
+
+  function closePreviewPaystubModalFn() {
+    if (previewPaystubModal) {
+      previewPaystubModal.classList.remove('is-open');
+      previewPaystubModal.setAttribute('aria-hidden', 'true');
+    }
+  }
+
   if (previewBtn && warningBar) {
     previewBtn.addEventListener('click', function () {
       var valid = checkMandatory();
       if (valid) {
-        alert('Preview would open here. Form is valid.');
+        openPreviewPaystubModal();
       } else {
         updateMandatoryUI();
       }
     });
   }
+
+  if (closePreviewPaystubModal) closePreviewPaystubModal.addEventListener('click', closePreviewPaystubModalFn);
+  if (previewMakeChangesBtn) previewMakeChangesBtn.addEventListener('click', closePreviewPaystubModalFn);
+  if (previewProceedDownloadBtn) previewProceedDownloadBtn.addEventListener('click', function () {
+    closePreviewPaystubModalFn();
+  });
+  if (previewPaystubModal) previewPaystubModal.addEventListener('click', function (e) {
+    if (e.target === previewPaystubModal) closePreviewPaystubModalFn();
+  });
 
   // Calculate Taxes: standard US payroll formulas
   (function () {
