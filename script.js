@@ -736,7 +736,30 @@
   if (closePreviewPaystubModal) closePreviewPaystubModal.addEventListener('click', closePreviewPaystubModalFn);
   if (previewMakeChangesBtn) previewMakeChangesBtn.addEventListener('click', closePreviewPaystubModalFn);
   if (previewProceedDownloadBtn) previewProceedDownloadBtn.addEventListener('click', function () {
-    closePreviewPaystubModalFn();
+    var el = document.getElementById('previewPaystubContent');
+    if (!el || typeof html2pdf === 'undefined') {
+      closePreviewPaystubModalFn();
+      return;
+    }
+    var payday = getVal('payday');
+    var baseName = 'paystub';
+    if (payday) {
+      var d = payday.match(/(\d{4})-(\d{2})-(\d{2})/);
+      if (d) baseName = 'paystub_' + d[1] + '-' + d[2] + '-' + d[3];
+    }
+    var filename = baseName + '.pdf';
+    var opt = {
+      margin: 10,
+      filename: filename,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(el).save().then(function () {
+      closePreviewPaystubModalFn();
+    }).catch(function () {
+      closePreviewPaystubModalFn();
+    });
   });
   if (previewPaystubModal) previewPaystubModal.addEventListener('click', function (e) {
     if (e.target === previewPaystubModal) closePreviewPaystubModalFn();
