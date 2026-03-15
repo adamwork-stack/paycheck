@@ -2,8 +2,8 @@
   'use strict';
 
   let earningIndex = 1;
-  let deductionIndex = 0;
-  let timeOffIndex = 0;
+  let deductionIndex = 1;
+  let timeOffIndex = 1;
 
   function populateStateDropdowns(states) {
     document.querySelectorAll('.state-dropdown').forEach(function (sel) {
@@ -183,13 +183,23 @@
         <select name="earningType_${index}">
           <option value="regular" selected>Regular Earnings</option>
           <option value="overtime">Overtime</option>
+          <option value="overtime-hourly">Overtime Hourly</option>
+          <option value="tips">Tips</option>
+          <option value="vacation-pay">Vacation Pay</option>
+          <option value="sickpay">SickPay</option>
           <option value="bonus">Bonus</option>
           <option value="commission">Commission</option>
+          <option value="award">Award</option>
+          <option value="prize">Prize</option>
+          <option value="custom">Custom</option>
         </select>
       </div>
       <div class="field-group">
         <label>Amount</label>
-        <input type="text" name="earningAmount_${index}" value="$0.00" class="amount-input">
+        <div class="input-prefix">
+          <span class="prefix">$</span>
+          <input type="text" name="earningAmount_${index}" value="0.00" class="amount-input">
+        </div>
       </div>
       <div class="field-group">
         <label>Hours</label>
@@ -199,8 +209,12 @@
         <label>YTD Amount</label>
         <div class="input-prefix">
           <span class="prefix">$</span>
-          <input type="text" name="earningYtd_${index}" placeholder="">
+          <input type="text" name="earningYtd_${index}" value="0" class="amount-input">
         </div>
+      </div>
+      <div class="field-group field-remove">
+        <label>&nbsp;</label>
+        <button type="button" class="btn-remove" aria-label="Remove">×</button>
       </div>
     `;
     return row;
@@ -213,8 +227,11 @@
     });
   }
 
+  earningsContainer && earningsContainer.addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-remove')) e.target.closest('.earning-row').remove();
+  });
+
   function getDeductionsContainer() {
-    let section = document.querySelector('.form-section');
     const sections = document.querySelectorAll('.form-section');
     for (const s of sections) {
       if (s.querySelector('.section-title') && s.querySelector('.section-title').textContent.includes('Deductions')) {
@@ -227,52 +244,58 @@
   function addDeductionRow() {
     const section = getDeductionsContainer();
     if (!section) return;
-    let container = section.querySelector('.deductions-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'deductions-container';
-      const hr = section.querySelector('.section-divider');
-      if (hr) {
-        hr.after(container);
-      } else {
-        section.querySelector('.section-header').after(container);
-      }
-    }
+    const container = section.querySelector('.deductions-container');
+    if (!container) return;
     const row = document.createElement('div');
     row.className = 'deduction-row';
     row.setAttribute('data-index', deductionIndex);
     row.innerHTML = `
       <div class="field-group">
-        <label>Deduction Type</label>
+        <label>Deduction</label>
         <select name="deductionType_${deductionIndex}">
-          <option value="tax">Tax</option>
-          <option value="insurance">Insurance</option>
-          <option value="retirement">Retirement</option>
-          <option value="other">Other</option>
+          <option value="custom">Custom</option>
+          <option value="401k">Deduction 401K</option>
+          <option value="health">Health Insurance</option>
+          <option value="dental">Dental Insurance</option>
+          <option value="vision">Vision Insurance</option>
+          <option value="fsa">FSA</option>
+          <option value="hsa-individual">Individual HSA</option>
+          <option value="hsa-family">Family HSA</option>
+          <option value="simple-ira">Simple IRA</option>
+          <option value="457b">Deduction 457B</option>
+          <option value="roth-401k">Roth 401K</option>
+          <option value="roth-403b">Roth 403B</option>
+          <option value="roth-457b">Roth 457B</option>
+          <option value="403b">Deduction 403B</option>
+          <option value="dependent-care-fsa">Dependent Care FSA</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Tax Type</label>
+        <select name="deductionTaxType_${deductionIndex}">
+          <option value="pretax">Pre-Tax</option>
+          <option value="posttax" selected>Post-Tax</option>
         </select>
       </div>
       <div class="field-group">
         <label>Amount</label>
         <div class="input-prefix">
           <span class="prefix">$</span>
-          <input type="text" name="deductionAmount_${deductionIndex}" placeholder="0.00">
+          <input type="text" name="deductionAmount_${deductionIndex}" placeholder="">
         </div>
       </div>
       <div class="field-group">
-        <label>YTD</label>
+        <label>YTD Amount</label>
         <div class="input-prefix">
           <span class="prefix">$</span>
           <input type="text" name="deductionYtd_${deductionIndex}" placeholder="">
         </div>
       </div>
-      <div class="field-group">
+      <div class="field-group field-remove">
         <label>&nbsp;</label>
-        <button type="button" class="btn-secondary btn-remove">Remove</button>
+        <button type="button" class="btn-remove" aria-label="Remove">×</button>
       </div>
     `;
-    row.querySelector('.btn-remove').addEventListener('click', function () {
-      row.remove();
-    });
     container.appendChild(row);
     deductionIndex += 1;
   }
@@ -294,46 +317,53 @@
   function addTimeOffRow() {
     const section = getTimeOffContainer();
     if (!section) return;
-    let container = section.querySelector('.timeoff-container');
-    if (!container) {
-      container = document.createElement('div');
-      container.className = 'timeoff-container';
-      const hr = section.querySelector('.section-divider');
-      if (hr) {
-        hr.after(container);
-      } else {
-        section.querySelector('.section-header').after(container);
-      }
-    }
+    const container = section.querySelector('.timeoff-container');
+    if (!container) return;
     const row = document.createElement('div');
     row.className = 'timeoff-row';
     row.setAttribute('data-index', timeOffIndex);
     row.innerHTML = `
       <div class="field-group">
-        <label>Time Off Type</label>
-        <select name="timeoffType_${timeOffIndex}">
-          <option value="vacation">Vacation</option>
+        <label>Policy Name</label>
+        <select name="timeoffPolicy_${timeOffIndex}">
+          <option value="">-- Select --</option>
+          <option value="earned">Earned Leave</option>
           <option value="sick">Sick Leave</option>
-          <option value="personal">Personal</option>
-          <option value="other">Other</option>
+          <option value="vacation">Vacation Leave</option>
+          <option value="personal">Personal Leave</option>
+          <option value="optional">Optional Leave</option>
+          <option value="military">Military Leave</option>
+          <option value="parental">Parental Leave</option>
+          <option value="sabbatical">Sabbatical Leave</option>
+          <option value="bereavement">Bereavement Leave</option>
+          <option value="jury">Jury Leave</option>
+          <option value="vote">Leave to Cast Vote</option>
+          <option value="volunteer">Volunteer Leave</option>
+          <option value="compensatory">Compensatory Leave</option>
+          <option value="duvet">Duvet Day</option>
         </select>
       </div>
       <div class="field-group">
-        <label>Balance</label>
-        <input type="text" name="timeoffBalance_${timeOffIndex}" placeholder="0">
+        <label>Start Balance (Hrs)</label>
+        <input type="text" name="timeoffStartBalance_${timeOffIndex}" placeholder="">
       </div>
       <div class="field-group">
-        <label>Used</label>
-        <input type="text" name="timeoffUsed_${timeOffIndex}" placeholder="0">
+        <label>Spent Hours</label>
+        <input type="text" name="timeoffSpent_${timeOffIndex}" placeholder="">
       </div>
       <div class="field-group">
+        <label>Earned Hours</label>
+        <input type="text" name="timeoffEarned_${timeOffIndex}" placeholder="">
+      </div>
+      <div class="field-group">
+        <label>End Balance (Hrs)</label>
+        <input type="text" name="timeoffEndBalance_${timeOffIndex}" value="0" placeholder="">
+      </div>
+      <div class="field-group field-remove">
         <label>&nbsp;</label>
-        <button type="button" class="btn-secondary btn-remove">Remove</button>
+        <button type="button" class="btn-remove" aria-label="Remove">×</button>
       </div>
     `;
-    row.querySelector('.btn-remove').addEventListener('click', function () {
-      row.remove();
-    });
     container.appendChild(row);
     timeOffIndex += 1;
   }
@@ -341,6 +371,13 @@
   if (addTimeOffBtn) {
     addTimeOffBtn.addEventListener('click', addTimeOffRow);
   }
+
+  document.querySelector('.deductions-container') && document.querySelector('.deductions-container').addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-remove')) e.target.closest('.deduction-row').remove();
+  });
+  document.querySelector('.timeoff-container') && document.querySelector('.timeoff-container').addEventListener('click', function (e) {
+    if (e.target.classList.contains('btn-remove')) e.target.closest('.timeoff-row').remove();
+  });
 
   function getRequiredFields() {
     return document.querySelectorAll('.form-wrapper input[class*="required-input"], .form-wrapper input[name="companyName"], .form-wrapper input[name="companyAddress"], .form-wrapper input[name="companyCity"], .form-wrapper select[name="companyState"], .form-wrapper input[name="companyZip"], .form-wrapper input[name="companyEmail"]');

@@ -434,9 +434,10 @@ select.active-select {
 
 .earning-row {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
   gap: 1rem;
   align-items: end;
+  margin-bottom: 1rem;
 }
 
 .amount-input {
@@ -539,10 +540,17 @@ select.active-select {
 }
 
 /* Deduction / Time off rows (dynamic) */
-.deduction-row,
+.deduction-row {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr auto;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+
 .timeoff-row {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr auto;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr auto;
   gap: 1rem;
   align-items: end;
   margin-bottom: 1rem;
@@ -551,6 +559,28 @@ select.active-select {
 .deduction-row .field-group,
 .timeoff-row .field-group {
   margin-bottom: 0;
+}
+
+.field-remove {
+  align-self: end;
+}
+
+.btn-remove {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  background: none;
+  color: #c0392b;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-remove:hover {
+  background: #fde8e8;
+  color: #a00;
 }
 
 /* Responsive */

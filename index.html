@@ -334,13 +334,23 @@
             <select name="earningType_0">
               <option value="regular" selected>Regular Earnings</option>
               <option value="overtime">Overtime</option>
+              <option value="overtime-hourly">Overtime Hourly</option>
+              <option value="tips">Tips</option>
+              <option value="vacation-pay">Vacation Pay</option>
+              <option value="sickpay">SickPay</option>
               <option value="bonus">Bonus</option>
               <option value="commission">Commission</option>
+              <option value="award">Award</option>
+              <option value="prize">Prize</option>
+              <option value="custom">Custom</option>
             </select>
           </div>
           <div class="field-group">
             <label>Amount</label>
-            <input type="text" name="earningAmount_0" value="$0.00" class="amount-input">
+            <div class="input-prefix">
+              <span class="prefix">$</span>
+              <input type="text" name="earningAmount_0" value="0.00" class="amount-input">
+            </div>
           </div>
           <div class="field-group">
             <label>Hours</label>
@@ -350,8 +360,12 @@
             <label>YTD Amount</label>
             <div class="input-prefix">
               <span class="prefix">$</span>
-              <input type="text" name="earningYtd_0" placeholder="">
+              <input type="text" name="earningYtd_0" value="0" class="amount-input">
             </div>
+          </div>
+          <div class="field-group field-remove">
+            <label>&nbsp;</label>
+            <button type="button" class="btn-remove" aria-label="Remove">×</button>
           </div>
         </div>
       </div>
@@ -365,7 +379,56 @@
           <h2 class="section-title">Deductions <span class="info-icon">ⓘ</span></h2>
           <p class="section-desc">Enter all deductions taken from the gross pay, such as taxes, insurance, and retirement contributions. Click 'Add another deduction' to include multiple deductions.</p>
         </div>
-        <button type="button" class="btn-secondary btn-add" id="addDeduction">+ Add Deduction</button>
+        <button type="button" class="btn-secondary btn-add" id="addDeduction">+ Add Another Deduction</button>
+      </div>
+      <div class="deductions-container">
+        <div class="deduction-row" data-index="0">
+          <div class="field-group">
+            <label>Deduction</label>
+            <select name="deductionType_0">
+              <option value="custom">Custom</option>
+              <option value="401k">Deduction 401K</option>
+              <option value="health">Health Insurance</option>
+              <option value="dental">Dental Insurance</option>
+              <option value="vision">Vision Insurance</option>
+              <option value="fsa">FSA</option>
+              <option value="hsa-individual">Individual HSA</option>
+              <option value="hsa-family">Family HSA</option>
+              <option value="simple-ira">Simple IRA</option>
+              <option value="457b">Deduction 457B</option>
+              <option value="roth-401k">Roth 401K</option>
+              <option value="roth-403b">Roth 403B</option>
+              <option value="roth-457b">Roth 457B</option>
+              <option value="403b">Deduction 403B</option>
+              <option value="dependent-care-fsa">Dependent Care FSA</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Tax Type</label>
+            <select name="deductionTaxType_0">
+              <option value="pretax">Pre-Tax</option>
+              <option value="posttax" selected>Post-Tax</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Amount</label>
+            <div class="input-prefix">
+              <span class="prefix">$</span>
+              <input type="text" name="deductionAmount_0" placeholder="">
+            </div>
+          </div>
+          <div class="field-group">
+            <label>YTD Amount</label>
+            <div class="input-prefix">
+              <span class="prefix">$</span>
+              <input type="text" name="deductionYtd_0" placeholder="">
+            </div>
+          </div>
+          <div class="field-group field-remove">
+            <label>&nbsp;</label>
+            <button type="button" class="btn-remove" aria-label="Remove">×</button>
+          </div>
+        </div>
       </div>
       <hr class="section-divider">
     </section>
@@ -377,7 +440,51 @@
           <h2 class="section-title">Time Off</h2>
           <p class="section-desc">Enter the worker's paid time off balances and usage for this pay period, including vacation, sick leave, and personal time. Click 'Add another time off' to include multiple time off types.</p>
         </div>
-        <button type="button" class="btn-secondary btn-add" id="addTimeOff">+ Add Time Off</button>
+        <button type="button" class="btn-secondary btn-add" id="addTimeOff">+ Add Another Time Off</button>
+      </div>
+      <div class="timeoff-container">
+        <div class="timeoff-row" data-index="0">
+          <div class="field-group">
+            <label>Policy Name</label>
+            <select name="timeoffPolicy_0">
+              <option value="">-- Select --</option>
+              <option value="earned">Earned Leave</option>
+              <option value="sick">Sick Leave</option>
+              <option value="vacation">Vacation Leave</option>
+              <option value="personal">Personal Leave</option>
+              <option value="optional">Optional Leave</option>
+              <option value="military">Military Leave</option>
+              <option value="parental">Parental Leave</option>
+              <option value="sabbatical">Sabbatical Leave</option>
+              <option value="bereavement">Bereavement Leave</option>
+              <option value="jury">Jury Leave</option>
+              <option value="vote">Leave to Cast Vote</option>
+              <option value="volunteer">Volunteer Leave</option>
+              <option value="compensatory">Compensatory Leave</option>
+              <option value="duvet">Duvet Day</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Start Balance (Hrs)</label>
+            <input type="text" name="timeoffStartBalance_0" placeholder="">
+          </div>
+          <div class="field-group">
+            <label>Spent Hours</label>
+            <input type="text" name="timeoffSpent_0" placeholder="">
+          </div>
+          <div class="field-group">
+            <label>Earned Hours</label>
+            <input type="text" name="timeoffEarned_0" placeholder="">
+          </div>
+          <div class="field-group">
+            <label>End Balance (Hrs)</label>
+            <input type="text" name="timeoffEndBalance_0" value="0" placeholder="">
+          </div>
+          <div class="field-group field-remove">
+            <label>&nbsp;</label>
+            <button type="button" class="btn-remove" aria-label="Remove">×</button>
+          </div>
+        </div>
       </div>
       <hr class="section-divider">
     </section>
