@@ -251,6 +251,27 @@
     annually: 1
   };
 
+  var recommendedHoursBySchedule = {
+    daily: 8,
+    weekly: 40,
+    biweekly: 80,
+    semimonthly: 86.67,
+    monthly: 173.33,
+    quarterly: 520,
+    semiannually: 1040,
+    annually: 2080
+  };
+
+  function applyRecommendedHours() {
+    if (!salaryHoursInput || !payScheduleSelect) return;
+    var schedule = payScheduleSelect.value || 'semimonthly';
+    var recommended = recommendedHoursBySchedule[schedule];
+    if (recommended != null) {
+      salaryHoursInput.value = recommended % 1 === 0 ? String(recommended) : String(Math.round(recommended * 100) / 100);
+      syncSalaryHoursToEarning();
+    }
+  }
+
   function formatMoney(num) {
     if (num === null || isNaN(num)) return '0.00';
     return Math.round(num * 100) / 100;
@@ -301,7 +322,10 @@
     hourlyPayRateInput.addEventListener('change', updateRegularEarningFromWage);
   }
   if (payScheduleSelect) {
-    payScheduleSelect.addEventListener('change', updateRegularEarningFromWage);
+    payScheduleSelect.addEventListener('change', function () {
+      applyRecommendedHours();
+      updateRegularEarningFromWage();
+    });
   }
   document.querySelectorAll('input[name="wageType"]').forEach(function (r) {
     r.addEventListener('change', function () {
@@ -309,6 +333,7 @@
       updateRegularEarningFromWage();
     });
   });
+  applyRecommendedHours();
   syncSalaryHoursToEarning();
   updateRegularEarningFromWage();
 
