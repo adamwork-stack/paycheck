@@ -752,14 +752,25 @@
       margin: 10,
       filename: filename,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
+      html2canvas: { scale: 2, useCORS: true, logging: false },
       jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
-    html2pdf().set(opt).from(el).save().then(function () {
-      closePreviewPaystubModalFn();
-    }).catch(function () {
-      closePreviewPaystubModalFn();
-    });
+    var clone = el.cloneNode(true);
+    clone.id = '';
+    var wrapper = document.createElement('div');
+    wrapper.style.cssText = 'position:fixed;left:-9999px;top:0;width:210mm;background:#fafafa;padding:1rem;border-radius:6px;border:1px solid #e0e0e0;box-sizing:border-box;';
+    wrapper.appendChild(clone);
+    document.body.appendChild(wrapper);
+    function doPdf() {
+      html2pdf().set(opt).from(wrapper).save().then(function () {
+        if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
+        closePreviewPaystubModalFn();
+      }).catch(function () {
+        if (wrapper.parentNode) wrapper.parentNode.removeChild(wrapper);
+        closePreviewPaystubModalFn();
+      });
+    }
+    requestAnimationFrame(function () { requestAnimationFrame(doPdf); });
   });
   if (previewPaystubModal) previewPaystubModal.addEventListener('click', function (e) {
     if (e.target === previewPaystubModal) closePreviewPaystubModalFn();
